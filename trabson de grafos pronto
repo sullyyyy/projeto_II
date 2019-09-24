@@ -1,0 +1,182 @@
+lista_vertices = []
+lista_arestas = []
+    
+def criarVertice():
+    
+        vert = int(input("Vertice a ser adicionado: "))
+        if buscaVertice(vert) == False:
+            lista_vertices.append(vert)
+        else:
+            print("Este vertice já existe!")
+
+def criarAresta(tipo):
+        origem = int(input("Origem da aresta: "))
+        destino = int(input("Destino da aresta: "))
+
+        if tipo == 1:
+            if buscaVertice(origem) != False:
+                if buscaVertice(destino) != False:
+                    lista_arestas.append((origem,destino))
+                else:
+                    print("vertice %i inválido"% destino)
+            else:
+                print("vertice %i inválido"%origem)
+
+        if tipo == 2:
+            if origem != destino:
+                if buscaVertice(origem) != False:
+                    if buscaVertice(destino) != False:
+                        lista_arestas.append((origem,destino))
+                    else:
+                        print("vertice %i inválido"% destino)
+                else:
+                    print("vertice %i inválido"%origem)
+            else:
+                print("Grafos não direcionados não permitem self-loops :|")
+ 
+def buscaVertice(vertice):
+    for i in range(0, len(lista_vertices)):
+        compara = lista_vertices[i]
+        if compara == vertice:
+           return True
+           break
+    else:
+        return False
+
+def buscarAresta(origem, destino):
+    for i in range(0, len(lista_arestas)):
+        compara = lista_arestas[i]
+        if compara == (origem,destino):
+            print("Aresta encontrada!")
+            break
+        
+    else:
+        print("Aresta Ausente do grafo")
+            
+def removerAresta(origem, destino):
+    for i in range(0, len(lista_arestas)):
+        if lista_arestas[i] == (origem,destino):
+            lista_arestas.remove((origem,destino))
+            break
+    else:
+        print("Aresta ausente do grafo")
+
+def adjVertice(vert):
+    adj = []
+    for i in range(0, len(lista_arestas)):
+           compara = lista_arestas[i]
+           if compara[0] == vert:
+               adj.append(compara[1])
+    print(adj)
+
+    
+def criarGrafo():
+    print("1 - DIRECIONADO/ 2 - NÃO DIRECIONADO")
+    tipo = int(input("Tipo de grafo: "))
+    
+    sair = 1
+    while sair != 0:
+        criarVertice()
+        sair = int(input(" 0 - SAIR // 1 - INSERIR OUTRO: "))
+
+    print("vertices criados com sucesso!")
+    
+    sair = 1
+    while sair != 0:
+        criarAresta(tipo)
+        sair = int(input(" 0 - SAIR // 1 - INSERIR OUTRO: "))
+        
+    print("Aresta criadas com sucesso!")
+
+def grauVertice(tipo,vert):
+    if tipo == 1:
+        adj = []
+        for i in range(0, len(lista_arestas)):
+           compara = lista_arestas[i]
+           if compara[0] == vert:
+               adj.append(compara[1])
+           if compara[1] != compara[0]:
+               if compara[1] == vert:
+                   adj.append(compara[0])
+        print(adj)
+        print("O grau do vertice é %i"%len(adj))
+
+    if tipo == 2:
+         adj = []
+         for i in range(0, len(lista_arestas)):
+           compara = lista_arestas[i]
+           if compara[0] == vert:
+               adj.append(compara[1])
+               
+            
+         if adj != None:
+            grau =(len(adj))
+            print("Grau do vertice é %i"%grau)
+         else:
+            print("O vertice é isolado")
+
+        
+########################################################
+opcao = 0
+while opcao != 8:
+    print("=============================")
+    print("Selecione uma das opções abaixo: ")
+    print("1 - Criar grafo")
+    print("2 - Inserir aresta") 
+    print("3 - Remover aresta")
+    print("4 - Buscar aresta")
+    print("5 - Lista de adjacencias de um vertice")
+    print("6 - Exibir grafo")
+    print("7 - Nº de vertices e arestas")
+    print("8 - Grau de um vertice")
+    print("9 - Sair")
+    print("=============================")
+
+    opcao = int(input("-> "))
+
+    if opcao == 1:
+        lista_vertices.clear()
+        lista_arestas.clear()
+        criarGrafo()
+        print("grafo criado com sucesso!")
+
+    if opcao ==2:
+        print("1 - DIRECIONADO/ 2 - NÃO DIRECIONADO")
+        tipo = int(input("Tipo do grafo atual: "))
+        criarAresta(tipo)
+
+    if opcao == 3:
+        origem = int(input("Origem da aresta: "))
+        destino = int(input("Destino da aresta: "))
+        removerAresta(origem,destino)
+
+    if opcao == 4:
+        origem = int(input("Origem da aresta: "))
+        destino = int(input("Destino da aresta: "))
+        buscarAresta(origem,destino)
+
+    if opcao == 5:
+        vert = int(input("Vertice a ser buscado: "))
+        adjVertice(vert)
+
+    if opcao == 6:
+        print("Lista de vertices")
+        print(lista_vertices)
+        print("Lista de arestas")
+        print(lista_arestas)
+
+    if opcao == 7:
+        n_vert = len(lista_vertices)
+        print("Número de vertices: %i"%n_vert)
+        n_art = len(lista_arestas)
+        print("Número de arestas: %i"%n_art)
+
+    if opcao == 8:
+        print("1 - DIRECIONADO/ 2 - NÃO DIRECIONADO")
+        tipo = int(input("Tipo do grafo atual: "))
+
+        vert = int(input("Vertice a ser buscado"))
+        grauVertice(tipo, vert)
+            
+    if opcao == 9:
+        break
